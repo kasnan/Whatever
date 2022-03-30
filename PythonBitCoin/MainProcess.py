@@ -14,16 +14,16 @@ import backtest
 import BTget
 import getCurrentState
 global idx
-#ÁÖ¹®Àº ÃÊ´ç 8È¸, ºĞ´ç 200È¸ / ÁÖ¹® ¿Ü ¿äÃ»Àº ÃÊ´ç 30È¸, ºĞ´ç 900È¸ »ç¿ë °¡´ÉÇÕ´Ï´Ù.
-#¾÷ºñÆ® °Å·¡¼ö¼ö·á´Â ÃÑ ÁÖ¹®±İ¾×ÀÇ 0.05%
+#ì£¼ë¬¸ì€ ì´ˆë‹¹ 8íšŒ, ë¶„ë‹¹ 200íšŒ / ì£¼ë¬¸ ì™¸ ìš”ì²­ì€ ì´ˆë‹¹ 30íšŒ, ë¶„ë‹¹ 900íšŒ ì‚¬ìš© ê°€ëŠ¥í•©ë‹ˆë‹¤.
+#ì—…ë¹„íŠ¸ ê±°ë˜ìˆ˜ìˆ˜ë£ŒëŠ” ì´ ì£¼ë¬¸ê¸ˆì•¡ì˜ 0.05%
 
-# ¾÷ºñÆ® access key, secret key º¯¼ö
+# ì—…ë¹„íŠ¸ access key, secret key ë³€ìˆ˜
 
-upbit_access = "JFAOs6xtLrOUczDGCSpg06idMIu0dojEjQmZBzDO"
-upbit_secret = "iFyJ6xrQogWVxZgPLj3QoAxBPtG47EBRqiWvtz6b"
+upbit_access = "access key"
+upbit_secret = "secret key"
 global flag
 flag = 0
-# ÄÚÀÎ Á¾°¡ ´ãÀ» deque º¯¼ö
+# ì½”ì¸ ì¢…ê°€ ë‹´ì„ deque ë³€ìˆ˜
 ma20 = deque(maxlen=20)
 ma60 = deque(maxlen=60)
 ma120 = deque(maxlen=120)
@@ -31,11 +31,11 @@ ma120 = deque(maxlen=120)
 # login
 upbit = pyupbit.Upbit(upbit_access, upbit_secret)
 
-# ÀÜ°í Á¶È¸ krw
+# ì”ê³  ì¡°íšŒ krw
 def get_balance_krw():    
     balance = upbit.get_balance("KRW")
     return balance
-# ÀÜ°í Á¶È¸ coin
+# ì”ê³  ì¡°íšŒ coin
 def get_balance_wallet(ticker):
     balances = upbit.get_balances()
     for b in balances:
@@ -46,104 +46,104 @@ def get_balance_wallet(ticker):
         else:
             pass
     return int(0), int(0)
-# ¸Å¼ö ÁÖ¹®
+# ë§¤ìˆ˜ ì£¼ë¬¸
 def buy_order(ticker, volume):
     try:
         for i in range(4):
             buy_result = upbit.buy_market_order(ticker=ticker, price=volume)
             if buy_result == None or 'error' in buy_result:
-                print("¸Å¼ö Àç ÁÖ¹®")
+                print("ë§¤ìˆ˜ ì¬ ì£¼ë¬¸")
                 time.sleep(1)
             else:
-                print(ticker+", "+volume+"¸Å¼ö")
-                BTget.write_exc(str(ticker+"¸¦ "+volume+"¸¸Å­ ¸Å¼ö ¿Ï·á"),"BuyCoin")
+                print(ticker+", "+volume+"ë§¤ìˆ˜")
+                BTget.write_exc(str(ticker+"ë¥¼ "+volume+"ë§Œí¼ ë§¤ìˆ˜ ì™„ë£Œ"),"BuyCoin")
                 return buy_result
     except Exception as e:
         print(e)
-        print("¸Å¼ö ÁÖ¹® ÀÌ»ó")
-# ¸Åµµ ÁÖ¹®
+        print("ë§¤ìˆ˜ ì£¼ë¬¸ ì´ìƒ")
+# ë§¤ë„ ì£¼ë¬¸
 def sell_order(ticker, volume):
     try:
         while True:
             sell_result = upbit.sell_market_order(ticker, volume)
             if sell_result == None or 'error' in sell_result:
-                print(f"{sell_result}, ¸Åµµ Àç ÁÖ¹®")
+                print(f"{sell_result}, ë§¤ë„ ì¬ ì£¼ë¬¸")
                 time.sleep(1)
             else:
-                print(ticker+", "+volume+"¸Åµµ")
-                BTget.write_exc(ticker+"¸¦ "+volume+"¸¸Å­ ¸Åµµ ¿Ï·á","SellCoin")
+                print(ticker+", "+volume+"ë§¤ë„")
+                BTget.write_exc(ticker+"ë¥¼ "+volume+"ë§Œí¼ ë§¤ë„ ì™„ë£Œ","SellCoin")
                 return sell_result
     except Exception as e:
         print(e)
-        print("¸Åµµ ÁÖ¹® ÀÌ»ó")
+        print("ë§¤ë„ ì£¼ë¬¸ ì´ìƒ")
 
-# ÄÚÀÎ ½Éº¼ ÇÏ³ª¾¿ ¹Ş¾Æ¿Í¼­ ÀÌµ¿Æò±Õ¼± ±¸ÇÑ ÈÄ ¸Å¼ö Á¶°Ç Å½»ö
+# ì½”ì¸ ì‹¬ë³¼ í•˜ë‚˜ì”© ë°›ì•„ì™€ì„œ ì´ë™í‰ê· ì„  êµ¬í•œ í›„ ë§¤ìˆ˜ ì¡°ê±´ íƒìƒ‰
 def get_ticker_ma(ticker, unitvolume, mode):  
 
-    '''get_ohlcv ÇÔ¼ö´Â °í°¡/½Ã°¡/Àú°¡/Á¾°¡/°Å·¡·®À» DataFrameÀ¸·Î ¹İÈ¯ÇÕ´Ï´Ù'''
-    df = pyupbit.get_ohlcv(ticker, interval='day', count=21) # ÀÏºÀ µ¥ÀÌÅÍ ÇÁ·¹ÀÓ »ı¼º
-    ma20.extend(df['close'])    # ma20 º¯¼ö¿¡ Á¾°¡ ³Ö±â
-    ma60.extend(df['close'])    # ma60 º¯¼ö¿¡ Á¾°¡ ³Ö±â
-    ma120.extend(df['close'])   # ma120 º¯¼ö¿¡ Á¾°¡ ³Ö±â
-    curr_ma20 = sum(ma20) / len(ma20)       # ma20°ª ´õÇØ¼­ ³ª´©±â = 20ÀÏ¼± ÀÌµ¿Æò±Õ
-    curr_ma60 = sum(ma60) / len(ma60)       # ma60°ª ´õÇØ¼­ ³ª´©±â = 60ÀÏ¼± ÀÌµ¿Æò±Õ
-    curr_ma120 = sum(ma120) / len(ma120)    # ma20°ª ´õÇØ¼­ ³ª´©±â = 120ÀÏ¼± ÀÌµ¿Æò±Õ
+    '''get_ohlcv í•¨ìˆ˜ëŠ” ê³ ê°€/ì‹œê°€/ì €ê°€/ì¢…ê°€/ê±°ë˜ëŸ‰ì„ DataFrameìœ¼ë¡œ ë°˜í™˜í•©ë‹ˆë‹¤'''
+    df = pyupbit.get_ohlcv(ticker, interval='day', count=21) # ì¼ë´‰ ë°ì´í„° í”„ë ˆì„ ìƒì„±
+    ma20.extend(df['close'])    # ma20 ë³€ìˆ˜ì— ì¢…ê°€ ë„£ê¸°
+    ma60.extend(df['close'])    # ma60 ë³€ìˆ˜ì— ì¢…ê°€ ë„£ê¸°
+    ma120.extend(df['close'])   # ma120 ë³€ìˆ˜ì— ì¢…ê°€ ë„£ê¸°
+    curr_ma20 = sum(ma20) / len(ma20)       # ma20ê°’ ë”í•´ì„œ ë‚˜ëˆ„ê¸° = 20ì¼ì„  ì´ë™í‰ê· 
+    curr_ma60 = sum(ma60) / len(ma60)       # ma60ê°’ ë”í•´ì„œ ë‚˜ëˆ„ê¸° = 60ì¼ì„  ì´ë™í‰ê· 
+    curr_ma120 = sum(ma120) / len(ma120)    # ma20ê°’ ë”í•´ì„œ ë‚˜ëˆ„ê¸° = 120ì¼ì„  ì´ë™í‰ê· 
 
-    now_price = pyupbit.get_current_price(ticker)       # ÄÚÀÎÀÇ ÇöÀç°¡
-    open_price = df['open'][-1]                 # ´çÀÏ ½Ã°¡ ±¸ÇÏ±â
-    buy_target_price = open_price + (open_price * 0.015) # ¸ñÇ¥°¡ = ´çÀÏ ½Ã°¡ º¸´Ù 2ÇÁ·Î ÀÌ»ó »ó½Â ±İ¾×
+    now_price = pyupbit.get_current_price(ticker)       # ì½”ì¸ì˜ í˜„ì¬ê°€
+    open_price = df['open'][-1]                 # ë‹¹ì¼ ì‹œê°€ êµ¬í•˜ê¸°
+    buy_target_price = open_price + (open_price * 0.015) # ëª©í‘œê°€ = ë‹¹ì¼ ì‹œê°€ ë³´ë‹¤ 2í”„ë¡œ ì´ìƒ ìƒìŠ¹ ê¸ˆì•¡
     long_volt_target_price, short_volt_target_price = getCurrentState.cal_target(ticker)
 
     tick, scale = getCurrentState.cal_tickscal(ticker)
 
-    coin_check = get_balance_wallet(ticker) # ÄÚÀÎ º¸À¯ ÇÏ°í ÀÖ´ÂÁö Ã¼Å©
-    avg_price = coin_check[0]   # ¸Å¼ö Æò±Õ°¡
-    balance = coin_check[1]     # ÄÚÀÎ º¸À¯ °³¼ö
+    coin_check = get_balance_wallet(ticker) # ì½”ì¸ ë³´ìœ  í•˜ê³  ìˆëŠ”ì§€ ì²´í¬
+    avg_price = coin_check[0]   # ë§¤ìˆ˜ í‰ê· ê°€
+    balance = coin_check[1]     # ì½”ì¸ ë³´ìœ  ê°œìˆ˜
 
     if avg_price == 0 and balance == 0:
         flag = 0
     else:
         flag = 1
     timenow = str(datetime.datetime.now())
-    print("(ÇöÀç½Ã°£ : "+timenow+")")
-    print(ticker + '½Ã¼¼ °¨½Ã Áß')
+    print("(í˜„ì¬ì‹œê°„ : "+timenow+")")
+    print(ticker + 'ì‹œì„¸ ê°ì‹œ ì¤‘')
 
-    # º¼·ı¸¸Å­ ¸Å¼ö
+    # ë³¼ë¥¨ë§Œí¼ ë§¤ìˆ˜
 
     volume = round(unitvolume * 0.995, scale)
     if flag == 0 and (mode == 'b' or mode == 'n'):
         if long_volt_target_price <= now_price and flag == 0:
             buy_order(ticker, volume)
-            BTget.write_exc("ÄÚÀÎ¸í: {}, ±¸ÀÔ·®: {}%".format(ticker, volume),"BuyCoin")
+            BTget.write_exc("ì½”ì¸ëª…: {}, êµ¬ì…ëŸ‰: {}%".format(ticker, volume),"BuyCoin")
             flag = 1
 
         elif short_volt_target_price >= now_price and flag == 0:
             buy_order(ticker, volume)
-            BTget.write_exc("ÄÚÀÎ¸í: {}, ±¸ÀÔ·®: {}%".format(ticker, volume),"BuyCoin")
+            BTget.write_exc("ì½”ì¸ëª…: {}, êµ¬ì…ëŸ‰: {}%".format(ticker, volume),"BuyCoin")
             flag = 1
     
         elif curr_ma20 <= curr_ma60 and curr_ma60 <= curr_ma120 and buy_target_price <= now_price and flag == 0:
             buy_order(ticker, volume)
-            BTget.write_exc("ÄÚÀÎ¸í: {}, ±¸ÀÔ·®: {}%".format(ticker, volume),"BuyCoin")
+            BTget.write_exc("ì½”ì¸ëª…: {}, êµ¬ì…ëŸ‰: {}%".format(ticker, volume),"BuyCoin")
             flag = 1
         pass
     elif flag == 1 and (mode == 's' or mode == 'n'):
         if flag == 1:
-            # ÇöÀç º¸À¯ ÄÚÀÎ ¼öÀÍ·ü °è»ê 
+            # í˜„ì¬ ë³´ìœ  ì½”ì¸ ìˆ˜ìµë¥  ê³„ì‚° 
             buy_profit = ((now_price - avg_price) / avg_price) * 100
             profit = round(buy_profit, 4)
-            # Æò±Õ ¸Å¼ö°¡ º¸´Ù 0.5% »ó½Â ½Ã ¸Åµµ
+            # í‰ê·  ë§¤ìˆ˜ê°€ ë³´ë‹¤ 0.5% ìƒìŠ¹ ì‹œ ë§¤ë„
             if profit >= 2.5:
-                print(f"{ticker} : ¸ñÇ¥°¡ µµ´Ş ÈÄ Àü·® ¸Åµµ")
+                print(f"{ticker} : ëª©í‘œê°€ ë„ë‹¬ í›„ ì „ëŸ‰ ë§¤ë„")
                 sell_order(ticker, balance)
-                BTget.write_exc("ÄÚÀÎ¸í: {}, ÆÇ¸Å·®: {}%".format(ticker, balance),"SellCoin")
+                BTget.write_exc("ì½”ì¸ëª…: {}, íŒë§¤ëŸ‰: {}%".format(ticker, balance),"SellCoin")
                 flag = 0
                 if mode == 's':
                     sys.exit()
                 return 0 
             else:
-                print("ÄÚÀÎ¸í: {}, ¼öÀÍ·ü: {}%".format(ticker, profit))
-                BTget.write_exc("ÄÚÀÎ¸í: {}, ¼öÀÍ·ü: {}%".format(ticker, profit),"ProfitReport")
+                print("ì½”ì¸ëª…: {}, ìˆ˜ìµë¥ : {}%".format(ticker, profit))
+                BTget.write_exc("ì½”ì¸ëª…: {}, ìˆ˜ìµë¥ : {}%".format(ticker, profit),"ProfitReport")
                 flag = 0
                 return 0
         else:
@@ -151,7 +151,7 @@ def get_ticker_ma(ticker, unitvolume, mode):
             print("Nothing!!")
             return 0
             
-# ÄÚÀÎ ¸®½ºÆ®¿¡¼­ ÀÌµ¿ Æò±Õ¼± ÇÔ¼ö·Î ÇÏ³ª¾¿ ²¨³»¼­ º¸³»±â
+# ì½”ì¸ ë¦¬ìŠ¤íŠ¸ì—ì„œ ì´ë™ í‰ê· ì„  í•¨ìˆ˜ë¡œ í•˜ë‚˜ì”© êº¼ë‚´ì„œ ë³´ë‚´ê¸°
 def mainp(tickers, idx, mode):
     idx = 0
     
