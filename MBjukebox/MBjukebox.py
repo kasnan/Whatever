@@ -15,38 +15,38 @@ OTQwOTY5OTEyNzIwMDUyMzc0.YgPIhQ.8P-6mKBGk1E0h1nKM179K0FSLSY
 https://discord.com/oauth2/authorize?client_id=940969912720052374
 '''
 
-#µğ½ºÄÚµå ¶óÀÌºê·¯¸®
+#ë””ìŠ¤ì½”ë“œ ë¼ì´ë¸ŒëŸ¬ë¦¬
 import discord, asyncio, os
 from discord.ext import commands
 
-#¿¬»ê¿ë ¶óÀÌºê·¯¸®
+#ì—°ì‚°ìš© ë¼ì´ë¸ŒëŸ¬ë¦¬
 import random
 import time
 import pandas as pd
-Token = 'OTQwOTY5OTEyNzIwMDUyMzc0.YgPIhQ.8P-6mKBGk1E0h1nKM179K0FSLSY'
+Token = 'Token'
 
-#º¿ »óÅÂ °áÁ¤
+#ë´‡ ìƒíƒœ ê²°ì •
 #discord.Activity discord.Game discord.Streaming
-bot_activity_s = discord.Streaming(name="¾ßµ¿", url='https://www.youtube.com/watch?v=pBEAzM2TRmE')
-bot_activity_g = discord.Game("¾îÂ¶µç Èçµé±â")
-bot = commands.Bot(command_prefix='¤±', status=discord.Status.do_not_disturb, activity=bot_activity_g, help_command=None)
+bot_activity_s = discord.Streaming(name="ì•¼ë™", url='https://www.youtube.com/watch?v=pBEAzM2TRmE')
+bot_activity_g = discord.Game("ì–´ì¨‹ë“  í”ë“¤ê¸°")
+bot = commands.Bot(command_prefix='ã…', status=discord.Status.do_not_disturb, activity=bot_activity_g, help_command=None)
 
 
-#Ä¿¸Çµå ¸®½ºÆ®
-@bot.command(aliases=['¾È³ç', '¤¾¤·', 'Hi'])
+#ì»¤ë§¨ë“œ ë¦¬ìŠ¤íŠ¸
+@bot.command(aliases=['ì•ˆë…•', 'ã…ã…‡', 'Hi'])
 async def Hello(ctx):
-    await ctx.send("{} ¾È³ç!".format(ctx.author.mention))
+    await ctx.send("{} ì•ˆë…•!".format(ctx.author.mention))
 
-@bot.command(aliases=['´ÙÀÌ½º', 'ÁÖ»çÀ§', 'roll'])
+@bot.command(aliases=['ë‹¤ì´ìŠ¤', 'ì£¼ì‚¬ìœ„', 'roll'])
 async def Dice(ctx, number:int):
-    await ctx.send("ÁÖ»çÀ§ ±¼¸®´ÂÁß...")
-    await ctx.send("{name}ÀÌ(°¡) ÁÖ»çÀ§¸¦ ±¼·Á {dice}ÀÌ(°¡) ³ª¿È".format(name=ctx.author.mention, dice=random.randint(1, int(number))))
+    await ctx.send("ì£¼ì‚¬ìœ„ êµ´ë¦¬ëŠ”ì¤‘...")
+    await ctx.send("{name}ì´(ê°€) ì£¼ì‚¬ìœ„ë¥¼ êµ´ë ¤ {dice}ì´(ê°€) ë‚˜ì˜´".format(name=ctx.author.mention, dice=random.randint(1, int(number))))
 
-@bot.command(aliases=['inf', '?', 'Á¤º¸', '¼­¹öÁ¤º¸'])
+@bot.command(aliases=['inf', '?', 'ì •ë³´', 'ì„œë²„ì •ë³´'])
 async def Information(ctx):
     members = [member.name for member in ctx.guild.members]
     await ctx.send(
-        "{} ¼­¹ö´Â {} ¼­¹öÀÌ¸ç ±¸¼º¿øÀº {} ÀÌ°í ÃÑ {} ¸íÀÔ´Ï´Ù.".format(
+        "{} ì„œë²„ëŠ” {} ì„œë²„ì´ë©° êµ¬ì„±ì›ì€ {} ì´ê³  ì´ {} ëª…ì…ë‹ˆë‹¤.".format(
             ctx.guild.name, 
             ctx.guild.region, 
             members, 
@@ -54,36 +54,36 @@ async def Information(ctx):
         )
     )
 
-@bot.command(aliases=['ÀÌ¸§º¯°æ'])
+@bot.command(aliases=['ì´ë¦„ë³€ê²½'])
 async def emoivb(ctx, channel: discord.VoiceChannel, *, new_name):
     await channel.edit(name=new_name)
 
-@bot.command(aliases=['µµ¿ò¸»', 'µµ¿ò', 'h'])
+@bot.command(aliases=['ë„ì›€ë§', 'ë„ì›€', 'h'])
 async def help(ctx):
-    embed = discord.Embed(title="¸è¹æº¿", description="½²! ¶Ë ½Î´ÂÁß", color=0x4432a8)
-    embed.add_field(name="1. ÀÎ»ç", value="!Hello/!¾È³ç/!¤¾¤·/!Hi",inline=False)
-    embed.add_field(name="2. Á¤º¸", value="!Information/!inf/!Á¤º¸/!¼­¹öÁ¤º¸",inline=False)
-    embed.add_field(name="3. ÁÖ»çÀ§", value="!Dice/!´ÙÀÌ½º/!ÁÖ»çÀ§/!roll",inline=False)
-    embed.add_field(name="4. Å±", value="!Å±",inline=False)
-    embed.add_field(name="5. ¹ÂÆ®", value="!¹ÂÆ®",inline=False)
-    embed.add_field(name="6. ¹ÂÆ®ÇØÁ¦", value="!¹ÂÆ®ÇØÁ¦",inline=False)
+    embed = discord.Embed(title="ë©±ë°©ë´‡", description="ì‰¿! ë˜¥ ì‹¸ëŠ”ì¤‘", color=0x4432a8)
+    embed.add_field(name="1. ì¸ì‚¬", value="!Hello/!ì•ˆë…•/!ã…ã…‡/!Hi",inline=False)
+    embed.add_field(name="2. ì •ë³´", value="!Information/!inf/!ì •ë³´/!ì„œë²„ì •ë³´",inline=False)
+    embed.add_field(name="3. ì£¼ì‚¬ìœ„", value="!Dice/!ë‹¤ì´ìŠ¤/!ì£¼ì‚¬ìœ„/!roll",inline=False)
+    embed.add_field(name="4. í‚¥", value="!í‚¥",inline=False)
+    embed.add_field(name="5. ë®¤íŠ¸", value="!ë®¤íŠ¸",inline=False)
+    embed.add_field(name="6. ë®¤íŠ¸í•´ì œ", value="!ë®¤íŠ¸í•´ì œ",inline=False)
     await ctx.send(embed=embed)
 
-@bot.command(aliases=['Å±', '¹ê', 'º´½Å'])
+@bot.command(aliases=['í‚¥', 'ë°´', 'ë³‘ì‹ '])
 async def kick(ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
     await ctx.send(f'User {ctx.member} has kicked.')
 
-@bot.command(aliases=['¹ÂÆ®'])
+@bot.command(aliases=['ë®¤íŠ¸'])
 async def mute(ctx, member: discord.Member, *, reason=None):
     await member.edit(mute=True)
     await ctx.delte()
 
-@bot.command(aliases=['¹ÂÆ®ÇØÁ¦'])
+@bot.command(aliases=['ë®¤íŠ¸í•´ì œ'])
 async def unmute(ctx, member: discord.Member, *, reason=None):
     await member.edit(mute=False)
 
-@bot.command(aliases=['´Ğº¯°æ'])
+@bot.command(aliases=['ë‹‰ë³€ê²½'])
 async def chnick(ctx, member: discord.Member, nick):
     await member.edit(nick=nick)
     await ctx.channel.purge(limit=2) 
@@ -112,14 +112,14 @@ async def join(ctx):
 async def leave(ctx):
     await ctx.voice_client.disconnect()
 
-@bot.command(aliases=['¿ªÇÒÃâ·Â'])
+@bot.command(aliases=['ì—­í• ì¶œë ¥'])
 async def printrole(ctx):
     valid_roles = [y.name.lower() for y in ctx.message.guild.roles]
     print(valid_roles)
     for i in range(len(valid_roles)):
         print(valid_roles[i])
 
-@bot.command(aliases=['³ª°¡','¤¤'])
+@bot.command(aliases=['ë‚˜ê°€','ã„´'])
 async def leavevc(ctx, id):
     member = await ctx.message.guild.fetch_member(id)
     await member.move_to(None)
@@ -140,25 +140,25 @@ async def chlog(ctx):
 @bot.command(pass_context=True)
 @commands.has_role("Admin") # This must be exactly the name of the appropriate role
 async def members(ctx):
-    #Àüµ¶½Ã 795914762004856842
-    #³ªÀÛ¼­ 938280795506892850
+    #ì „ë…ì‹œ 795914762004856842
+    #ë‚˜ì‘ì„œ 938280795506892850
     server = bot.guilds.cache.get(938280795506892850)
     memberList = server.members
     print(memberList)
 
-@bot.command(pass_context=True, aliases=['¤·'])
+@bot.command(pass_context=True, aliases=['ã…‡'])
 async def addrole(ctx, member: discord.Member, role):
     rol = discord.utils.get(ctx.message.guild.roles,name=role)
     await member.add_roles(rol)
     await ctx.channel.purge(limit=1)
 
-@bot.command(aliases=['¿ªÇÒ'])
+@bot.command(aliases=['ì—­í• '])
 async def createrole(ctx, role):
     await ctx.message.guild.create_role(name=role)
     valid_roles = [y.name.lower() for y in ctx.message.guild.roles]
     print(valid_roles)
 
-@bot.command(aliases=['¿ªÇÒÁ¦°Å'])
+@bot.command(aliases=['ì—­í• ì œê±°'])
 async def deleterole(ctx, role):
     #find role object
     role_object = discord.utils.get(ctx.message.guild.roles, name=role)
@@ -171,7 +171,7 @@ async def setrolecl(ctx, role):
     await role_object.edit(colour=discord.Colour(0x734721))
 
 @bot.event
-async def on_ready(): # º¿ ½ÇÇà½Ã ½ÇÇà
+async def on_ready(): # ë´‡ ì‹¤í–‰ì‹œ ì‹¤í–‰
     print('Login -', bot.user.name, bot.user.id)
 
 @bot.event
