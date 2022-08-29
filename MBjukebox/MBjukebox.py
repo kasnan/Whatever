@@ -1,19 +1,4 @@
 # -*- coding: euc-kr -*-
-'''
-discord bot
-
-
-APPLICATION ID
-940969912720052374
-
-PUBLIC KEY
-ac83fcedfc7e3cc92ef996eaa814062505e526e02da386509dc07c7ef50a62db
-
-TOKEN
-OTQwOTY5OTEyNzIwMDUyMzc0.YgPIhQ.8P-6mKBGk1E0h1nKM179K0FSLSY
-
-https://discord.com/oauth2/authorize?client_id=940969912720052374
-'''
 
 #디스코드 라이브러리
 import discord, asyncio, os
