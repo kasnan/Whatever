@@ -12,6 +12,7 @@ import web
 #drive = webdriver.ChromeDriverManager(ChromeDriverManager().install())
 #path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
 
+
 PROMPT_LIMIT = 2
 MODE = "init"
 
